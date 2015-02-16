@@ -6,11 +6,16 @@
   "scripts": {
     "start": "nw ."
   },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-  },
+  "author": "WeLoveTwitch",
+  "license": "MIT",
+  "repository": "https://github.com/WeLoveTwitch/TwitchOverlayFrontend.git",
+  "dependencies": {},
   "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-concat": "^2.5.0",
+    "gulp-inject": "^1.1.1",
+    "gulp-rename": "^1.2.0",
+    "gulp-sass": "^1.3.3"
   },
   "window": {
     "title": "TwitchOverlay Frontend",
