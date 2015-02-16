@@ -4,6 +4,14 @@ var sass = require('gulp-sass');
 var rename = require('gulp-rename');
 var inject = require('gulp-inject');
 
+var NwBuilder = require('node-webkit-builder');
+var nwOverlayFrontend = new NwBuilder({
+    files: ['./**/**', '!./build/**/**', '!./cache/**/**', '!./node_modules/**/**'],
+    buildDir: './build',
+    platforms: ['osx32', 'osx64', 'win32', 'win64'],
+    appName: 'TwitchOverlayFrontend'
+});
+
 var paths = {
     sass: ['./sass/**/*.scss'],
     cssLibs: [
@@ -44,4 +52,8 @@ gulp.task('inject', function () {
 
 gulp.task('watch', function () {
     gulp.watch(paths.sass, ['sass']);
+});
+
+gulp.task('build', function () {
+    return nwOverlayFrontend.build()
 });
