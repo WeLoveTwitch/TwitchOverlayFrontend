@@ -3,6 +3,7 @@ var concat = require('gulp-concat');
 var sass = require('gulp-sass');
 var rename = require('gulp-rename');
 var inject = require('gulp-inject');
+var runSequence = require('gulp-run-sequence');
 
 var NwBuilder = require('node-webkit-builder');
 var nwOverlayFrontend = new NwBuilder({
@@ -30,13 +31,15 @@ var paths = {
     ]
 };
 
-gulp.task('default', ['sass', 'inject']);
+gulp.task('default', function (done) {
+    runSequence('clean', 'sass', 'inject', done);
+});
 
 gulp.task('sass', function (done) {
     gulp.src(paths.sass)
         .pipe(sass())
         .pipe(gulp.dest('./css/'))
-        .pipe(rename({ extname: '.css' }))
+        .pipe(rename({extname: '.css'}))
         .pipe(gulp.dest('./css/'))
         .on('end', done);
 });
@@ -46,8 +49,15 @@ gulp.task('inject', function () {
     var target = gulp.src('./index-template.html');
     var sources = gulp.src(paths.jsLibs.concat(paths.js, paths.cssLibs, './css/*.css'), {read: false});
     return target.pipe(inject(sources, {addRootSlash: false}))
-        .pipe(rename({ basename: 'index' }))
+        .pipe(rename({basename: 'index'}))
         .pipe(gulp.dest('./'));
+});
+
+var rimraf = require('gulp-rimraf');
+
+gulp.task('clean', function () {
+    return gulp.src('./css/**/**', {read: false}) // much faster
+        .pipe(rimraf());
 });
 
 gulp.task('watch', function () {

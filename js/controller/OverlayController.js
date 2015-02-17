@@ -1,8 +1,5 @@
 TwitchOverlay.controller('OverlayController', ['$scope', '$rootScope', 'Socket', function ($scope, $rootScope, Socket) {
 
-    var gui = require('nw.gui');
-    var win = gui.Window.get();
-
     // add system tray icon
     // hide window by position it somewhere where the user doesn't see it
     // add hide and show option to system tray icon
@@ -35,7 +32,12 @@ TwitchOverlay.controller('OverlayController', ['$scope', '$rootScope', 'Socket',
         container: 'body'
     };
 
-    $scope.showDevTools = function() {
-        win.showDevTools();
-    };
+    if(typeof require !== 'undefined') {
+        var gui = require('nw.gui');
+        var win = gui.Window.get();
+
+        $scope.showDevTools = function() {
+            win.showDevTools();
+        };
+    }
 }]);
