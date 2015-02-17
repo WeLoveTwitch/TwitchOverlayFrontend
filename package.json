@@ -5,7 +5,8 @@
   "main": "index.html",
   "scripts": {
     "start": "nw .",
-    "serve": "node_modules/.bin/http-server ."
+    "serve": "node_modules/.bin/http-server .",
+    "postinstall": "node node_modules/.bin/gulp default"
   },
   "author": "WeLoveTwitch",
   "license": "MIT",
