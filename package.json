@@ -17,11 +17,10 @@
     "gulp-concat": "^2.5.0",
     "gulp-inject": "^1.1.1",
     "gulp-rename": "^1.2.0",
-    "gulp-sass": "^1.3.3"
-  },
-  "devDependencies": {
+    "gulp-sass": "^1.3.3",
     "node-webkit-builder": "^1.0.8"
   },
+  "devDependencies": {},
   "window": {
     "title": "TwitchOverlay Frontend",
     "toolbar": false,
