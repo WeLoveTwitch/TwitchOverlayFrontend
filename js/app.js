@@ -4,13 +4,23 @@ TwitchOverlay.config(['$stateProvider', '$urlRouterProvider', function($statePro
 
     'use strict';
 
-    $urlRouterProvider.otherwise('/home');
+    $urlRouterProvider.otherwise('/connect');
 
     $stateProvider
-        .state('home', {
-            url: '/home',
+        .state('overlay', {
+            url: '/overlay',
             templateUrl: 'templates/home.html',
             controller: 'OverlayController'
+        })
+        .state('connectDirect', {
+            url: '/connect/:host/:port',
+            templateUrl: 'templates/connect.html',
+            controller: 'ConnectController'
+        })
+        .state('connect', {
+            url: '/connect',
+            templateUrl: 'templates/connect.html',
+            controller: 'ConnectController'
         })
 }]);
 

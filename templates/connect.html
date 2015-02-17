@@ -1,0 +1,14 @@
+<div class="connection-window">
+    <form>
+        <div class="form-group">
+            <label for="host">Host</label>
+            <input type="text" id="host" class="form-control" placeholder="localhost" ng-model="remote.host">
+        </div>
+        <div class="form-group">
+            <label for="port">Port</label>
+            <input type="text" id="port" class="form-control" placeholder="1337" ng-model="remote.port">
+        </div>
+        <button type="submit" class="btn btn-default" ng-click="connect(host, port)">connect</button>
+    </form>
+</div>
+<div class="backdrop"></div>
