@@ -5,10 +5,6 @@ TwitchOverlay.controller('OverlayController', ['$scope', '$state', 'Socket', fun
         $scope.data = data;
     });
 
-    $scope.dragOptions = {
-        container: 'body'
-    };
-
     if(!Socket.isConnected()) {
         $state.go('connect');
     }

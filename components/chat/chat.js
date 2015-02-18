@@ -5,7 +5,7 @@ TwitchOverlay.directive('chat', [function() {
             chatData: '='
         },
         replace: true,
-        templateUrl: 'templates/directives/chat.html',
+        templateUrl: paths.components + 'chat/chat.html',
         link: function($scope, elem, attrs) {
 
             var _maxHeight = 331;

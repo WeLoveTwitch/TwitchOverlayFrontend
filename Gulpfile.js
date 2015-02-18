@@ -25,8 +25,11 @@ var paths = {
         './bower_components/ui-router/release/angular-ui-router.min.js'
     ],
     js: [
+        './js/paths.js',
         './js/app.js',
+        './components/component.js',
         './js/**/*.js',
+        './components/**/*.js',
         './vendor/**/*.js'
     ]
 };

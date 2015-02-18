@@ -1,0 +1,3 @@
+var paths = {
+    components: 'components/'
+};

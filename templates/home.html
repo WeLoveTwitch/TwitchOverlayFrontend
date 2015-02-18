@@ -1,42 +1,13 @@
-<div class="logo widget" ng-drag="dragOptions"></div>
-
-<header class="widget" ng-drag="dragOptions">
-    <span class="topic-container">
-        <span class="topic"><i class="fa fa-gamepad"></i> {{data.topic}} <i class="fa fa-gamepad"></i></span>
-    </span>
-</header>
-
-<div class="cam widget" ng-drag="dragOptions"></div>
-
-<follower-alert followers="data.follower.latestFollowers"></follower-alert>
-
-<div class="chat widget" ng-drag="dragOptions">
-    <chat chat-data="data.chat"></chat>
+<div class="overlay">
+    <logo></logo>
+    <cam></cam>
+    <follower-alert></follower-alert>
+    <chat></chat>
+    <followers></followers>
+    <newest-follower></newest-follower>
+    <text></text>
 </div>
 
-<div class="followers widget" ng-drag="dragOptions">
-    <i class="fa fa-users"></i>
-    Followers:
-    <span class="current-followers">{{data.follower.followerCurrent}}</span>
-    <span ng-show="data.followerTarget > 0"> / <span class="target-followers">{{data.followerTarget}}</span></span>
-</div>
 
-<div class="newest-follower-container widget" ng-drag="dragOptions">
-    <i class="fa fa-heart-o"></i>
-    Latest follower: <span class="newest-follower">{{data.follower.followerNewest.name}}</span>
-    <i class="fa fa-heart-o"></i>
-</div>
 
-<div class="schimmel-count-container widget hide" ng-drag="dragOptions">
-    <i class="fa fa-bar-chart"></i>
-    Schimmel Count: <span class="schimmel-count"></span>
-</div>
 
-<footer>
-    <div class="raffle widget" ng-show="data.subline" ng-drag="dragOptions">
-        <i class="fa fa-star-o"></i>
-        {{data.subline}}
-    </div>
-</footer>
-
-<div class="open-debug widget" ng-click="showDevTools()"></div>

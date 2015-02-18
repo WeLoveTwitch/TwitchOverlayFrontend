@@ -60,6 +60,9 @@ TwitchOverlay.service('Socket', ['$rootScope', 'Tick', function ($rootScope, Tic
         on: function(event, cb) {
             socketEvents.push(new SocketEvent(event, cb));
         },
+        emit: function(event) {
+            socket.emit(event);
+        },
         isConnected: function() {
             return socketConnected;
         },
