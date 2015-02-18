@@ -6,6 +6,9 @@ TwitchOverlay.service('Socket', ['$rootScope', 'Tick', function ($rootScope, Tic
 
     function SocketEvent(event, cb) {
         function checkForSocket(cb) {
+            if(socket) {
+                return cb();
+            }
             // @TODO: Use tick once instead
             setTimeout(function() {
                 if(!socketConnected) {
@@ -17,6 +20,7 @@ TwitchOverlay.service('Socket', ['$rootScope', 'Tick', function ($rootScope, Tic
 
         checkForSocket(function() {
             socket.on(event, function() {
+                console.log(event);
                 cb.apply(this, arguments);
                 apply();
             });

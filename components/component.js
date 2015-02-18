@@ -30,6 +30,10 @@
         this._callbacks[name] = callback;
     };
 
+    proto.get = function(eventName) {
+        this._socket.emit(this._getEventName(eventName));
+    };
+
     proto._call = function() {
         var args = Array.prototype.slice.call(arguments);
         var eventName = args.shift();
