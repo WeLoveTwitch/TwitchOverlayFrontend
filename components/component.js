@@ -9,9 +9,14 @@
 
     var proto = TwitchOverlayComponent.prototype;
 
-    proto.init = function(name) {
+    proto.init = function(name, elem) {
 
         this._name = name;
+
+        this.register('enterEditMode', function() {
+            console.log(this._name, 'entering editMode');
+            elem.addClass('edit-mode');
+        }.bind(this));
 
         // bind events
         this._events.forEach(function(eventName) {

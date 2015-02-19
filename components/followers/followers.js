@@ -1,6 +1,7 @@
 TwitchOverlay.directive('followers', ['Socket', 'Tick', function(Socket, Tick) {
     return {
         restrict: 'E',
+        replace: true,
         scope: {},
         templateUrl: paths.components + 'followers/followers.html',
         link: function($scope, elem, attrs) {
@@ -17,7 +18,7 @@ TwitchOverlay.directive('followers', ['Socket', 'Tick', function(Socket, Tick) {
                 $scope.followerTarget = count;
             });
 
-            component.init('followers');
+            component.init('followers', elem);
             component.get('countUpdate');
             component.get('newFollowerTarget');
         }

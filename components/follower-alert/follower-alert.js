@@ -1,6 +1,7 @@
 TwitchOverlay.directive('followerAlert', ['Socket', 'Tick', function(Socket, Tick) {
     return {
         restrict: 'E',
+        replace: true,
         scope: {},
         templateUrl: paths.components + 'follower-alert/follower-alert.html',
         link: function($scope, elem, attrs) {
@@ -20,7 +21,7 @@ TwitchOverlay.directive('followerAlert', ['Socket', 'Tick', function(Socket, Tic
                 queue.push(newFollower);
             });
 
-            component.init('followerAlert');
+            component.init('followerAlert', elem);
 
             /**
              * follower alerts are visible for `showAlertFor` ms.

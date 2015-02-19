@@ -2,6 +2,7 @@ TwitchOverlay.directive('newestFollower', ['Socket', 'Tick', function(Socket, Ti
     return {
         restrict: 'E',
         scope: {},
+        replace: true,
         templateUrl: paths.components + 'newest-follower/newest-follower.html',
         link: function($scope, elem, attrs) {
             var component = new TwitchOverlayComponent(Socket);
@@ -10,7 +11,7 @@ TwitchOverlay.directive('newestFollower', ['Socket', 'Tick', function(Socket, Ti
                 $scope.newestFollower = newestFollower;
             });
 
-            component.init('newestFollower');
+            component.init('newestFollower', elem);
             component.get('update');
         }
     }

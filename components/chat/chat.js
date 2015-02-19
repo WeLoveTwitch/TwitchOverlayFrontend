@@ -16,7 +16,7 @@ TwitchOverlay.directive('chat', ['Socket', function(Socket) {
                 $scope.lines.push(message);
             });
 
-            component.init('chat');
+            component.init('chat', elem);
 
             var _maxHeight = 331;
 
