@@ -15,7 +15,7 @@ TwitchOverlay.service('Socket', ['$rootScope', 'Tick', function ($rootScope, Tic
                     return checkForSocket(cb);
                 }
                 cb();
-            }, 500);
+            }, 5000);
         }
 
         checkForSocket(function() {
