@@ -1,4 +1,4 @@
-TwitchOverlay.directive('chat', [function() {
+TwitchOverlay.directive('chat', ['Socket', function(Socket) {
     return {
         restrict: 'E',
         scope: {
@@ -8,11 +8,21 @@ TwitchOverlay.directive('chat', [function() {
         templateUrl: paths.components + 'chat/chat.html',
         link: function($scope, elem, attrs) {
 
+            $scope.lines = [];
+
+            var component = new TwitchOverlayComponent(Socket);
+
+            component.register('message', function(message) {
+                $scope.lines.push(message);
+            });
+
+            component.init('chat');
+
             var _maxHeight = 331;
 
             $scope.showChatFrame = function() {
-                if(!$scope.chatData) return false;
-                var visibleLines = $scope.chatData.filter(function(line) {
+                if($scope.lines.length === 0) return false;
+                var visibleLines = $scope.lines.filter(function(line) {
                     return $scope.showLine(line.ts);
                 });
                 return visibleLines.length > 0;
