@@ -3,6 +3,7 @@ TwitchOverlay.service('Socket', ['$rootScope', 'Tick', function ($rootScope, Tic
     var socketConnected = false;
     var socket;
     var socketEvents = [];
+    var wait = false;
 
     function SocketEvent(event, cb) {
         function checkForSocket(cb) {
@@ -28,6 +29,10 @@ TwitchOverlay.service('Socket', ['$rootScope', 'Tick', function ($rootScope, Tic
     }
 
     function loadSocketIO(host, port, cb) {
+        if(socketConnected || wait === true) {
+            return false;
+        }
+        wait = true;
         var promise = jQuery.getScript('http://' + host + ':' + port + '/socket.io/socket.io.js');
         promise.done(function (script) {
 
@@ -38,6 +43,7 @@ TwitchOverlay.service('Socket', ['$rootScope', 'Tick', function ($rootScope, Tic
 
             initializeSocket(host, port);
 			cb();
+            wait = false;
         });
         promise.fail(function () {
             console.log('Failed to load socket.io');
