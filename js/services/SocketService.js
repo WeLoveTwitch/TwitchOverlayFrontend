@@ -1,32 +1,8 @@
-TwitchOverlay.service('Socket', ['$rootScope', 'Tick', function ($rootScope, Tick) {
+TwitchOverlay.service('Socket', ['$rootScope', 'Tick', 'Emote', 'Components', function ($rootScope, Tick, Emote, Components) {
 
     var socketConnected = false;
     var socket;
-    var socketEvents = [];
     var wait = false;
-
-    function SocketEvent(event, cb) {
-        function checkForSocket(cb) {
-            if(socketConnected === true) {
-                return cb();
-            }
-
-            setTimeout(function() {
-                if(!socketConnected) {
-                    return checkForSocket(cb);
-                }
-                cb();
-            }, 5000);
-        }
-
-        checkForSocket(function() {
-            socket.on(event, function() {
-                console.log(event);
-                cb.apply(this, arguments);
-                apply();
-            });
-        });
-    }
 
     function loadSocketIO(host, port, cb) {
         if(socketConnected || wait === true) {
@@ -53,6 +29,8 @@ TwitchOverlay.service('Socket', ['$rootScope', 'Tick', function ($rootScope, Tic
     function initializeSocket(host, port) {
         socket = io('http://' + host + ':' + port);
         socketConnected = true;
+
+        bindEvents();
     }
 
     function apply() {
@@ -66,13 +44,36 @@ TwitchOverlay.service('Socket', ['$rootScope', 'Tick', function ($rootScope, Tic
         initializeSocket('127.0.0.1', 1337);
     }
 
+    function bindEvents() {
+        socket.on('componentUpdate', function(eventName, data) {
+            var eventNameParts = eventName.split(':');
+            var componentName = eventNameParts[0];
+            var eventName = eventNameParts[1];
+            var componentId = eventNameParts[2];
+
+            Components.update(componentName, eventName, componentId, data);
+        });
+
+        socket.on('components', function(components) {
+            console.log(components);
+            Components.fill(components);
+        });
+
+        socket.on('newComponent', function(newComponent) {
+            Components.add(newComponent);
+        });
+
+        socket.on('triggerFrontendEvent', function(eventName, data) {
+            console.log(arguments);
+            $rootScope.$broadcast(eventName, data);
+        });
+
+        socket.on('emotes', function(emotesFromServer) {
+            Emote.set(emotesFromServer);
+        });
+    }
+
     return {
-        on: function(event, cb) {
-            socketEvents.push(new SocketEvent(event, cb));
-        },
-        emit: function(event) {
-            socket.emit(event);
-        },
         isConnected: function() {
             return socketConnected;
         },

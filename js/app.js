@@ -9,7 +9,7 @@ TwitchOverlay.config(['$stateProvider', '$urlRouterProvider', function($statePro
     $stateProvider
         .state('overlay', {
             url: '/overlay',
-            templateUrl: 'templates/home.html',
+            templateUrl: 'templates/overlay.html',
             controller: 'OverlayController'
         })
         .state('connectDirect', {

@@ -1,3 +1,4 @@
 var paths = {
-    components: 'components/'
+    components: 'components/',
+    templates: 'templates/'
 };

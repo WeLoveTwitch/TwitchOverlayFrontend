@@ -2,7 +2,9 @@ TwitchOverlay.directive('followerAlert', ['Socket', 'Tick', function(Socket, Tic
     return {
         restrict: 'E',
         replace: true,
-        scope: {},
+        scope: {
+            componentData: '='
+        },
         templateUrl: paths.components + 'follower-alert/follower-alert.html',
         link: function($scope, elem, attrs) {
             var component = new TwitchOverlayComponent(Socket);
@@ -16,12 +18,12 @@ TwitchOverlay.directive('followerAlert', ['Socket', 'Tick', function(Socket, Tic
             // configurable time in ms
             var showAlertFor = 3000;
 
-            component.register('update', function(newFollower) {
-                // new follower alert
-                queue.push(newFollower);
-            });
+            //component.register('update', function(newFollower) {
+            //    // new follower alert
+            //    queue.push(newFollower);
+            //});
 
-            component.init('followerAlert', elem);
+            component.init($scope, elem);
 
             /**
              * follower alerts are visible for `showAlertFor` ms.

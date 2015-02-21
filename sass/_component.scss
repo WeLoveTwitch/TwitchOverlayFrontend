@@ -1,0 +1,11 @@
+.component {
+  position: absolute;
+  width: 200px;
+  height: 100px;
+  background: #333333;
+
+  &.edit-mode {
+    border: 2px solid #FF69B4;
+    color: #ffffff;
+  }
+}

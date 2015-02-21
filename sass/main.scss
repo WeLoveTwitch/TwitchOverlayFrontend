@@ -1,3 +1,5 @@
+@import 'component';
+
 * {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -296,8 +298,4 @@ highlight {
     bottom: 0;
     height: 50px;
     width: 50px;
-}
-
-.edit-mode {
-  border: 1px solid #ff301d;
 }

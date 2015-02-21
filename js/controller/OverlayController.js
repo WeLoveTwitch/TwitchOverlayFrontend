@@ -1,15 +1,10 @@
-TwitchOverlay.controller('OverlayController', ['$scope', '$state', 'Socket', function ($scope, $state, Socket) {
+TwitchOverlay.controller('OverlayController', ['$scope', '$state', 'Socket', 'Components', function($scope, $state, Socket, Components) {
 
-    Socket.on('update', function(data) {
-        $scope.loaded = true;
-        $scope.data = data;
-    });
-
-    if(!Socket.isConnected()) {
+    if (!Socket.isConnected()) {
         $state.go('connect');
     }
 
-    if(typeof require !== 'undefined') {
+    if (typeof require !== 'undefined') {
         var gui = require('nw.gui');
         var win = gui.Window.get();
 
@@ -17,4 +12,8 @@ TwitchOverlay.controller('OverlayController', ['$scope', '$state', 'Socket', fun
             win.showDevTools();
         };
     }
+
+    $scope.getComponents = function() {
+        return Components.get();
+    };
 }]);
