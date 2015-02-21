@@ -4,8 +4,13 @@ var sass = require('gulp-sass');
 var rename = require('gulp-rename');
 var inject = require('gulp-inject');
 var runSequence = require('gulp-run-sequence');
-
 var NwBuilder = require('node-webkit-builder');
+var sourcemaps = require('gulp-sourcemaps');
+var buffer = require('vinyl-buffer');
+var browserify = require('browserify');
+var source = require('vinyl-source-stream');
+var brfs = require('brfs');
+
 var nwOverlayFrontend = new NwBuilder({
     files: ['./**/**', '!./build/**/**', '!./cache/**/**', '!./node_modules/**/**'],
     buildDir: './build',
@@ -25,17 +30,39 @@ var paths = {
         './bower_components/ui-router/release/angular-ui-router.min.js'
     ],
     js: [
-        './js/paths.js',
-        './js/app.js',
-        './components/component.js',
-        './js/**/*.js',
-        './components/**/*.js',
+        './overlay/paths.js',
+        './overlay/app.js',
+        './overlay/**/*.js',
+        './build/components.max.js',
         './vendor/**/*.js'
     ]
 };
 
+gulp.task('build-components', function() {
+
+    var bundler = browserify({
+        entries: ['./components/component-factory.js'],
+        debug: true,
+        transform: 'brfs'
+    });
+
+    var bundle = function() {
+        return bundler
+            .transform(brfs)
+            .bundle()
+            .pipe(source('components.max.js'))
+            .pipe(buffer())
+            .pipe(sourcemaps.init({loadMaps: true}))
+            // Add transformation tasks to the pipeline here.
+            .pipe(sourcemaps.write('./'))
+            .pipe(gulp.dest('./build'));
+    };
+
+    return bundle();
+});
+
 gulp.task('default', function (done) {
-    runSequence('clean', 'sass', 'inject', done);
+    runSequence('clean', ['sass', 'build-components'], 'inject', done);
 });
 
 gulp.task('sass', function (done) {
