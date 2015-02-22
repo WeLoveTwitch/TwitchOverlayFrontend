@@ -94,6 +94,10 @@ gulp.task('watch', function () {
     gulp.watch(paths.sass, ['sass']);
 });
 
+gulp.task('watch-components', function () {
+    gulp.watch('./components/**/**', ['build-components']);
+});
+
 gulp.task('build', function () {
     return nwOverlayFrontend.build()
 });

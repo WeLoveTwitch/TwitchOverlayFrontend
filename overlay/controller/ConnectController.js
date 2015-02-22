@@ -18,7 +18,9 @@ TwitchOverlay.controller('ConnectController', ['$scope', '$rootScope', 'Socket',
     $scope.connect($scope.remote.host, $scope.remote.port);
 
     if(Socket.isConnected()) {
-        $state.go('overlay');
+        setTimeout(function() {
+            $state.go('overlay');
+        }, 1000);
     }
 
     setInterval(function() {

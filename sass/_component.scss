@@ -1,8 +1,6 @@
 .component {
   position: absolute;
-  width: 200px;
-  height: 100px;
-  background: #333333;
+  transition: all 200ms ease;
 
   &.edit-mode {
     border: 2px solid #FF69B4;

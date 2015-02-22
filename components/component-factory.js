@@ -5,7 +5,7 @@ var components = {
     //followerAlert: require('./followerAlert/followerAlert'),
     //followers: require('./followers/followers'),
     logo: require('./logo/logo'),
-    //newestFollower: require('./newestFollower/newestFollower')
+    newestFollower: require('./newestFollower/newestFollower')
 };
 
 function ComponentFactory() {

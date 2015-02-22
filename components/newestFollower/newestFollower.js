@@ -1,22 +1,16 @@
-//TwitchOverlay.directive('newestFollower', ['Socket', 'Tick', function(Socket, Tick) {
-//    return {
-//        restrict: 'E',
-//        scope: {
-//            componentData: '='
-//        },
-//        replace: true,
-//        templateUrl: paths.components + 'newest-follower/newest-follower.html',
-//        link: function($scope, elem, attrs) {
-//            var component = new TwitchOverlayComponent();
-//            //
-//            //component.register('update', function(newestFollower) {
-//            //    $scope.newestFollower = newestFollower;
-//            //});
-//            //
-//            //component.init('newestFollower', elem);
-//            //component.get('update');
-//
-//            component.init($scope, elem);
-//        }
-//    }
-//}]);
+var Component = require('../component');
+var inherits = require('util').inherits;
+var fs = require('fs');
+
+function NewestFollowerComponent($scope, elem) {
+    Component.call(this, $scope, elem);
+
+    this.template = fs.readFileSync('components/newestFollower/newestFollower.html', 'utf8');
+
+}
+
+inherits(NewestFollowerComponent, Component);
+
+var proto = NewestFollowerComponent.prototype;
+
+module.exports = NewestFollowerComponent;

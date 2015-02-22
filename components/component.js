@@ -9,15 +9,19 @@ proto.init = function($scope, elem) {
     var that = this;
     this.data = $scope.componentData;
 
-    console.log(this._getEventName('setEditMode'));
-
     $scope.$on(this._getEventName('setEditMode'), function(data) {
         console.log(that.data.name, 'entering editMode');
         elem.addClass('edit-mode');
     });
 
+    $scope.$watch('componentData.position', function(newPos, oldPos) {
+        $(elem).css({
+            left: +newPos.x,
+            top: +newPos.y
+        });
+    });
+
     var element = this._compile(this.template)($scope);
-    console.log(element);
     elem.html(element);
 };
 
