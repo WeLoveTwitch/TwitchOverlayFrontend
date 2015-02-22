@@ -52,6 +52,7 @@ TwitchOverlay.service('Socket', ['$rootScope', 'Tick', 'Emote', 'Components', fu
             var componentId = eventNameParts[2];
 
             Components.update(componentName, eventName, componentId, data);
+            apply();
         });
 
         socket.on('components', function(components) {
