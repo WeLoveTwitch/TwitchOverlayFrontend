@@ -1,4 +1,4 @@
-TwitchOverlay.controller('OverlayController', ['$scope', '$state', 'Socket', 'Components', function($scope, $state, Socket, Components) {
+TwitchOverlay.controller('OverlayController', ['$scope', '$state', 'Socket', 'ComponentsService', function($scope, $state, Socket, ComponentsService) {
 
     if (!Socket.isConnected()) {
         $state.go('connect');
@@ -14,6 +14,6 @@ TwitchOverlay.controller('OverlayController', ['$scope', '$state', 'Socket', 'Co
     }
 
     $scope.getComponents = function() {
-        return Components.get();
+        return ComponentsService.get();
     };
 }]);

@@ -6,10 +6,13 @@ TwitchOverlay.directive('component', ['$compile', function($compile) {
         },
         replace: true,
         templateUrl: paths.templates + 'directives/component.html',
-        link: function($scope, elem, attrs) {
-            var component = componentFactory.create($scope.componentData.name, $compile);
-            if(!component) return;
-            component.init($scope, elem);
+        link: function(scope, element, attrs) {
+            console.debug('TwitchOverlay::directive:component', scope.componentData);
+            var component = componentFactory.create(scope.componentData.name, $compile);
+
+            if(!component) return false;
+
+            component.init(scope, element);
         }
     }
 }]);

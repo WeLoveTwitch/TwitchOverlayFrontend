@@ -1,28 +1,37 @@
-TwitchOverlay.service('Socket', ['$rootScope', 'Tick', 'Emote', 'Components', function ($rootScope, Tick, Emote, Components) {
+TwitchOverlay.service('Socket', ['$rootScope', 'Tick', 'Emote', 'ComponentsService', function ($rootScope, Tick, Emote, ComponentsService) {
 
     var socketConnected = false;
     var socket;
     var wait = false;
 
     function loadSocketIO(host, port, cb) {
+        // Check if already connected or trying to connect.
         if(socketConnected || wait === true) {
             return false;
         }
+
+        // Set a flag to say we're busy/trying to connect.
         wait = true;
+
+        // Fetch the socket script
         var promise = jQuery.getScript('http://' + host + ':' + port + '/socket.io/socket.io.js');
+
+        // Got the script, let's continue.
         promise.done(function (script) {
+            // The root of all evil :D
+            (function () { eval(script) }).call(window);
 
-            // evil :D
-            (function () {
-                eval(script);
-            }).call(window);
-
+            // Connect and initiate the callback
             initializeSocket(host, port);
-			cb();
+            cb();
+
+            // Done, reset the flag.
             wait = false;
         });
+
+        // Unable to retrieve the script, get REKT.
         promise.fail(function () {
-            console.log('Failed to load socket.io');
+            console.error('Error! Failed to load socket.io.');
         });
     }
 
@@ -39,46 +48,56 @@ TwitchOverlay.service('Socket', ['$rootScope', 'Tick', 'Emote', 'Components', fu
         }
     }
 
-    // if socketio is already in place we just connect
+    // If socket.io is already in place, connect.
     if (typeof io !== 'undefined') {
         initializeSocket('127.0.0.1', 1337);
     }
 
     function bindEvents() {
-        socket.on('componentUpdate', function(eventName, data) {
-            var eventNameParts = eventName.split(':');
-            var componentName = eventNameParts[0];
-            var eventName = eventNameParts[1];
-            var componentId = eventNameParts[2];
+        socket.on('componentUpdate', function(eventTag, data) {
+            var eventParts = eventTag.split(':');
+            var componentName = eventParts[0];
+            var eventName = eventParts[1];
+            var componentId = eventParts[2];
 
-            Components.update(componentName, eventName, componentId, data);
+            console.debug('SocketService::bindEvents - on(\'componentUpdate\')', eventName, data);
+            ComponentsService.update(componentName, eventName, componentId, data);
             apply();
         });
 
         socket.on('components', function(components) {
-            console.log(components);
-            Components.fill(components);
+            console.debug('SocketService::bindEvents - on(\'components\')', components);
+            ComponentsService.fill(components);
         });
 
         socket.on('newComponent', function(newComponent) {
-            Components.add(newComponent);
+            console.debug('SocketService::bindEvents - on(\'newComponent\')', newComponent);
+            ComponentsService.add(newComponent);
         });
 
+
         socket.on('triggerFrontendEvent', function(eventName, data) {
-            console.log(arguments);
+            console.debug('SocketService::bindEvents - on(\'triggerFrontendEvent\')', eventName, data);
             $rootScope.$broadcast(eventName, data);
         });
 
         socket.on('emotes', function(emotesFromServer) {
+            console.debug('SocketService::bindEvents - on(\'emotes\')');
             Emote.set(emotesFromServer);
         });
     }
 
     return {
         isConnected: function() {
+            console.debug('SocketService::isConnected', socketConnected);
             return socketConnected;
         },
         connect: function(host, port, cb) {
+            if(socketConnected || wait === true) {
+                return false;
+            }
+
+            console.debug('SocketService::connect', host, port, cb);
             loadSocketIO(host, port, cb);
         }
     }
