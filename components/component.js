@@ -14,16 +14,22 @@ proto.init = function (scope, elem) {
         elem.addClass('edit-mode');
     });
 
-    scope.$watch('componentData.settings', function (newSettings, oldSettings) {
-        console.debug('TwitchOverlayComponent::init - $watch', newSettings, oldSettings);
-        for (var key in newSettings) {
-            if (newSettings.hasOwnProperty(key)) {
-                if (key != 'text') {
-                    elem.css(key, newSettings[key]);
-                }
+    scope.$watch('componentData.settings', refreshStyles, true);
+
+    function refreshStyles(newStyles, oldStyles) {
+        console.debug('TwitchOverlayComponent::init::refresh', newStyles, oldStyles);
+        for (var key in newStyles) {
+            if (key != 'text' && newStyles.hasOwnProperty(key)) {
+                var value = newStyles[key];
+
+                elem.css(key, isNumber(value) ? +value : value);
             }
         }
-    }, true);
+    }
+
+    function isNumber(value) {
+        return !isNaN(parseFloat(value)) && isFinite(value);
+    }
 
     var element = this._compile(this.template)(scope);
     elem.html(element);
