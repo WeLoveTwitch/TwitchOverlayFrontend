@@ -4,7 +4,7 @@ var components = {
     //chat: require('./chat/chat'),
     //followerAlert: require('./followerAlert/followerAlert'),
     //followers: require('./followers/followers'),
-    logo: require('./logo/logo'),
+    image: require('./image/image'),
     newestFollower: require('./newestFollower/newestFollower')
 };
 
